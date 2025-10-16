@@ -1,0 +1,94 @@
+/* Layout Component - BEM Methodology */
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.layout__header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.layout__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) 0;
+}
+
+.layout__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.layout__logo {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.layout__logo:hover {
+  color: var(--color-primary-dark);
+}
+
+.layout__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  background-color: var(--color-gray-100);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--border-radius-md);
+}
+
+/* Main Content */
+.layout__main {
+  flex: 1;
+  padding: var(--space-8) 0;
+}
+
+/* Footer */
+.layout__footer {
+  background-color: var(--color-gray-900);
+  margin-top: auto;
+}
+
+.layout__footer-content {
+  text-align: center;
+  padding: var(--space-8) 0;
+}
+
+.layout__footer-text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-white);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .layout__nav {
+    padding: var(--space-3) 0;
+  }
+  
+  .layout__brand {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+  
+  .layout__logo {
+    font-size: var(--font-size-lg);
+  }
+  
+  .layout__main {
+    padding: var(--space-6) 0;
+  }
+}
