@@ -77,17 +77,17 @@
   .layout__nav {
     padding: var(--space-3) 0;
   }
-  
+
   .layout__brand {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-1);
   }
-  
+
   .layout__logo {
     font-size: var(--font-size-lg);
   }
-  
+
   .layout__main {
     padding: var(--space-6) 0;
   }

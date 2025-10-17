@@ -1,18 +1,20 @@
-import './styles.css'
+import type { ReactNode } from 'react';
+
+import './styles.css';
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className='layout'>
+    <div className="layout">
       <header className="layout__header">
         <div className="container">
           <nav className="layout__nav">
             <div className="layout__brand">
               <a href="/" className="layout__logo">
-                Apiki Blog 
+                Apiki Blog
               </a>
               <span className="layout__subtitle">Development</span>
             </div>
@@ -20,9 +22,7 @@ export function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      <main className="layout__main">
-        {children}
-      </main>
+      <main className="layout__main">{children}</main>
 
       <footer className="layout__footer">
         <div className="container">
@@ -34,5 +34,5 @@ export function Layout({ children }: LayoutProps) {
         </div>
       </footer>
     </div>
-  )
+  );
 }
