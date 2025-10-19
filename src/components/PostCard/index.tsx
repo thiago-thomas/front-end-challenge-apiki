@@ -9,7 +9,7 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   return (
     <article className="post-card">
-      <Link to={post.link} className="post-card__link">
+      <Link to={`/post/${post.slug}`} className="post-card__link">
         {post.featuredImage && (
           <div className="post-card__image-container">
             <img

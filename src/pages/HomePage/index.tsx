@@ -1,41 +1,19 @@
 import { useEffect, useState } from 'react';
-import type { PostCardType } from '../../types/api';
 import { PostCard } from '../../components/PostCard';
 import './styles.css';
+import { fetchPosts } from '../../services/api';
+import type { PostCardType } from '../../types/api';
 
 export function HomePage() {
   const [posts, setPosts] = useState<PostCardType[]>([]);
 
   async function loadPosts() {
-    const result = await fetch(
-      `https://blog.apiki.com/wp-json/wp/v2/posts?_embed&categories=518`
-    );
+    const formattedPosts = await fetchPosts();
 
-    if (!result.ok) {
-      console.error('Failed to fetch posts');
+    if (!formattedPosts) {
       return;
     }
-
-    const data = await result.json();
-
-    console.log(data);
-
-    const formattedPosts = data.map((post: any):PostCardType => ({
-      id: post.id,
-      title: post.title.rendered,
-      slug: post.slug,
-      excerpt: post.excerpt.rendered.replace("<p>", "").replace("</p>", ""),
-      featuredImage: post._embedded['wp:featuredmedia'][0].source_url || undefined,
-      altText: post._embedded['wp:featuredmedia'][0].alt_text || undefined,
-      link: post.link,
-      date: new Date(post.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
-    }));
-
-    setPosts(formattedPosts);
+    setPosts(formattedPosts.posts);
   }
 
   useEffect(() => {
