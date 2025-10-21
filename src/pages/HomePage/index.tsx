@@ -11,18 +11,17 @@ export function HomePage() {
 
   async function loadPosts() {
     try {
-      setLoading(true)
+      setLoading(true);
       const formattedPosts = await fetchPosts();
-  
+
       if (!formattedPosts) {
         return;
       }
       setPosts(formattedPosts.posts);
-
-    } catch(err) {
-      console.error(err)
+    } catch (err) {
+      console.error(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -30,8 +29,8 @@ export function HomePage() {
     loadPosts();
   }, []);
 
-  if(loading) {
-    return <Loading text="Carregando postagens..." />
+  if (loading) {
+    return <Loading text="Carregando postagens..." />;
   }
 
   return (

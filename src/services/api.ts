@@ -36,7 +36,14 @@ function transformPostsToPostCard(post: WordPressPost): PostCardType {
     featuredImage: featuredImage?.url,
     altText: featuredImage?.alt,
     link: post.link,
-    date: post.date,
+    date: new Date(post.date).toLocaleDateString('pt-BR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    }),
   };
 }
 

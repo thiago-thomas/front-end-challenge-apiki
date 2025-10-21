@@ -9,7 +9,7 @@ export function PostPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<PostDetail | null>(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!slug) {
@@ -19,20 +19,18 @@ export function PostPage() {
 
     const loadPost = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const postData = await fetchPostBySlug(slug);
         if (!postData) {
           console.error('Post não encontrado');
           return;
         }
         setPost(postData);
-
       } catch (err) {
-        console.error(err)
+        console.error(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-
     };
 
     loadPost();
@@ -42,8 +40,8 @@ export function PostPage() {
     navigate('/');
   }
 
-  if(loading) {
-    return <Loading text='Carregando postagem...' />
+  if (loading) {
+    return <Loading text="Carregando postagem..." />;
   }
 
   if (!post) {
