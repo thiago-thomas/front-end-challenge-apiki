@@ -56,3 +56,10 @@ export interface WordPressMedia {
     };
   };
 }
+
+export interface PaginationInfo {
+  total: number;
+  totalPages: number;
+  currentPage: number;
+  hasNextPage: boolean;
+}

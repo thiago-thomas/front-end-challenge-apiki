@@ -1,6 +1,26 @@
-import type { PostCardType, PostDetail, WordPressPost } from '../types/api';
+import type {
+  PostCardType,
+  PostDetail,
+  WordPressPost,
+  PaginationInfo,
+} from '../types/api';
 
 const API_BASE_URL = 'https://blog.apiki.com/wp-json/wp/v2';
+
+function extractPaginationInfo(
+  response: Response,
+  currentPage: number
+): PaginationInfo {
+  const total = parseInt(response.headers.get('X-WP-Total') || '0');
+  const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '0');
+
+  return {
+    total,
+    totalPages,
+    currentPage,
+    hasNextPage: currentPage < totalPages,
+  };
+}
 
 function extractFeaturedImage(
   post: WordPressPost
@@ -56,20 +76,25 @@ function transformPostToPostDetail(post: WordPressPost): PostDetail {
   };
 }
 
-export async function fetchPosts() {
-  const response = await fetch(`${API_BASE_URL}/posts?_embed&categories=518`);
+export async function fetchPosts(page: number = 1) {
+  const response = await fetch(
+    `${API_BASE_URL}/posts?_embed&categories=518&page=${page}`
+  );
 
   if (!response.ok) {
     console.error('Failed to fetch posts');
     return;
   }
 
-  const postsData: WordPressPost[] = await response.json();
+  //console.log('resposta do server:',response)
 
-  console.log(postsData);
+  const postsData: WordPressPost[] = await response.json();
+  const pagination = extractPaginationInfo(response, page);
+
 
   return {
     posts: postsData.map(transformPostsToPostCard),
+    pagination,
   };
 }
 
@@ -83,7 +108,7 @@ export async function fetchPostBySlug(slug: string) {
 
   const postDataBySlug: WordPressPost[] = await response.json();
 
-  console.log(postDataBySlug);
+  //console.log(postDataBySlug);
 
   if (postDataBySlug.length === 0) {
     return null;
