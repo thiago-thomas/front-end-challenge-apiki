@@ -3,11 +3,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchPostBySlug } from '../../services/api';
 import type { PostDetail } from '../../types/api';
 import './styles.css';
+import { Loading } from '../../components/Loading';
 
 export function PostPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<PostDetail | null>(null);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!slug) {
@@ -16,13 +18,22 @@ export function PostPage() {
     }
 
     const loadPost = async () => {
-      const postData = await fetchPostBySlug(slug);
-      if (!postData) {
-        console.error('Post não encontrado');
-        return;
+      try {
+        setLoading(true)
+        const postData = await fetchPostBySlug(slug);
+        if (!postData) {
+          console.error('Post não encontrado');
+          return;
+        }
+        setPost(postData);
+
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setLoading(false)
       }
-      setPost(postData);
-    }
+
+    };
 
     loadPost();
   }, [slug, navigate]);
@@ -31,12 +42,16 @@ export function PostPage() {
     navigate('/');
   }
 
+  if(loading) {
+    return <Loading text='Carregando postagem...' />
+  }
+
   if (!post) {
     return (
       <div className="post-page">
         <div className="container">
           <div className="post-page__not-found">
-            <h2>Post não encontrado</h2>
+            <h2>Postagem não encontrada</h2>
             <p>O post que você está procurando não existe ou foi removido.</p>
             <Link to="/" className="post-page__back-link">
               Voltar ao Blog
@@ -55,7 +70,7 @@ export function PostPage() {
             Blog
           </Link>
           <span className="post-page__breadcrumb-separator">/</span>
-          <span className="post-page__breadcrumb-current">Post</span>
+          <span className="post-page__breadcrumb-current">Postagem</span>
         </nav>
 
         <article className="post-page__article">
@@ -78,10 +93,13 @@ export function PostPage() {
           </header>
 
           <div className="post-page__content">
-            <div className="post-page__body" dangerouslySetInnerHTML={{__html: post.content}}></div>
+            <div
+              className="post-page__body"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            ></div>
           </div>
         </article>
-        
+
         <footer className="post-page__footer">
           <button className="post-page__back-button" onClick={handleGoHome}>
             Voltar ao blog

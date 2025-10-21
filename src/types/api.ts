@@ -10,7 +10,7 @@ export interface PostCardType {
 }
 
 export interface PostDetail extends PostCardType {
-  content: string
+  content: string;
 }
 
 export interface WordPressPost {

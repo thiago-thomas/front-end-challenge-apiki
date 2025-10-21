@@ -16,7 +16,7 @@ export function Layout({ children }: LayoutProps) {
               <a href="/" className="layout__logo">
                 Apiki Blog
               </a>
-              <span className="layout__subtitle">Development</span>
+              <span className="layout__subtitle">Desenvolvimento</span>
             </div>
           </nav>
         </div>
@@ -28,7 +28,7 @@ export function Layout({ children }: LayoutProps) {
         <div className="container">
           <div className="layout__footer-content">
             <p className="layout__footer-text">
-              © 2025 Apiki Blog. All rights reserved.
+              © 2025 Blog Apiki. Todos os direitos reservados.
             </p>
           </div>
         </div>

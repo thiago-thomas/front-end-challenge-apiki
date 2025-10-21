@@ -2,29 +2,31 @@ import type { PostCardType, PostDetail, WordPressPost } from '../types/api';
 
 const API_BASE_URL = 'https://blog.apiki.com/wp-json/wp/v2';
 
-function extractFeaturedImage(post: WordPressPost): { url: string; alt: string } | null {
+function extractFeaturedImage(
+  post: WordPressPost
+): { url: string; alt: string } | null {
   if (!post._embedded?.['wp:featuredmedia']?.[0]) {
-    return null
+    return null;
   }
 
-  const media = post._embedded['wp:featuredmedia'][0]
-  const sizes = media.media_details?.sizes
-  
+  const media = post._embedded['wp:featuredmedia'][0];
+  const sizes = media.media_details?.sizes;
+
   // Prioridade: medium_large > large > medium > source_url
-  const imageUrl = sizes?.['medium_large']?.source_url || 
-                   sizes?.large?.source_url || 
-                   sizes?.medium?.source_url || 
-                   media.source_url
+  const imageUrl =
+    sizes?.['medium_large']?.source_url ||
+    sizes?.large?.source_url ||
+    sizes?.medium?.source_url ||
+    media.source_url;
 
   return {
     url: imageUrl,
-    alt: media.alt_text || post.title.rendered
-  }
+    alt: media.alt_text || post.title.rendered,
+  };
 }
 
-
 function transformPostsToPostCard(post: WordPressPost): PostCardType {
-  const featuredImage = extractFeaturedImage(post)
+  const featuredImage = extractFeaturedImage(post);
 
   return {
     id: post.id,
@@ -34,19 +36,18 @@ function transformPostsToPostCard(post: WordPressPost): PostCardType {
     featuredImage: featuredImage?.url,
     altText: featuredImage?.alt,
     link: post.link,
-    date: post.date
-  }
+    date: post.date,
+  };
 }
 
 function transformPostToPostDetail(post: WordPressPost): PostDetail {
-  const PostCard = transformPostsToPostCard(post)
+  const PostCard = transformPostsToPostCard(post);
 
   return {
     ...PostCard,
-    content: post.content.rendered
-  }
+    content: post.content.rendered,
+  };
 }
-
 
 export async function fetchPosts() {
   const response = await fetch(`${API_BASE_URL}/posts?_embed&categories=518`);
@@ -61,9 +62,8 @@ export async function fetchPosts() {
   console.log(postsData);
 
   return {
-    posts: postsData.map(transformPostsToPostCard)
-  }
-  
+    posts: postsData.map(transformPostsToPostCard),
+  };
 }
 
 export async function fetchPostBySlug(slug: string) {
