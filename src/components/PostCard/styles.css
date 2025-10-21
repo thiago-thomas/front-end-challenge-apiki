@@ -1,7 +1,7 @@
 /* PostCard Component - BEM Methodology */
 
 .post-card {
-  background-color: var(--color-white);
+  background-color: var(--color-dark);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
@@ -55,7 +55,7 @@
 .post-card__title {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-gray-900);
+  color: var(--color-white);
   margin-bottom: var(--space-3);
   line-height: 1.3;
   display: -webkit-box;
